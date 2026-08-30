@@ -12,11 +12,14 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     x11vnc \
     fluxbox \
-    novnc \
     websockify \
     wget \
     unzip \
     && rm -rf /var/lib/apt/lists/*
+
+RUN wget https://github.com/novnc/noVNC/archive/refs/tags/v1.4.0.zip -O /tmp/novnc.zip && \
+    unzip /tmp/novnc.zip -d /opt/ && \
+    mv /opt/noVNC-1.4.0 /opt/novnc
 
 WORKDIR /app
 COPY --from=build /app/target/client-1.0.0.jar app.jar
@@ -29,9 +32,9 @@ Xvfb :1 -screen 0 1280x800x24 &\n\
 sleep 3\n\
 fluxbox &\n\
 sleep 3\n\
-x11vnc -display :1 -forever -shared -nopw &\n\
+x11vnc -display :1 -forever -shared -nopw -rfbport 5900 &\n\
 sleep 3\n\
-websockify --web /usr/share/novnc 8080 localhost:5900 &\n\
+websockify --web /opt/novnc 8080 localhost:5900 &\n\
 sleep 3\n\
 java -cp "app.jar:lib/*" com.centremedical.client.Main' > /start.sh && chmod +x /start.sh
 
