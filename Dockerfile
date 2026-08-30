@@ -19,6 +19,7 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
 RUN echo '#!/bin/bash\n\
+export DISPLAY=:1\n\
 rm -f /tmp/.X1-lock\n\
 Xvfb :1 -screen 0 1280x800x24 &\n\
 sleep 3\n\
