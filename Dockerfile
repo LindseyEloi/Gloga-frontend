@@ -15,14 +15,12 @@ RUN apt-get update && apt-get install -y \
     novnc \
     websockify \
     wget \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY --from=build /app/target/client-1.0.0.jar app.jar
 COPY --from=build /app/libs/*.jar /app/lib/
-
-# Vérifier que noVNC est installé
-RUN ls -la /usr/share/novnc/
 
 RUN echo '#!/bin/bash\n\
 export DISPLAY=:1\n\
