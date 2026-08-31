@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 public class ApiClient {
 
     // Adaptez le port si vous changez server.port dans application.properties
-    public static final String BASE_URL = "http://localhost:8080/api";
+    public static final String BASE_URL = "http://localhost:8081/api";
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
